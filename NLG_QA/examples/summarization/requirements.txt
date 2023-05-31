@@ -1,0 +1,16 @@
+absl-py==1.1.0
+protobuf==3.17.3 
+packaging 
+six 
+wrapt 
+scipy 
+accelerate==0.10.0 
+datasets==2.3.2
+sentencepiece==0.1.96 
+setuptools==59.5.0 
+rouge-score
+nltk
+py7zr 
+pyarrow==8.0.0 
+tensorboard
+tensorboardX 

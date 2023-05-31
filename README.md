@@ -102,7 +102,7 @@ NLU/examples/text-classification/run_glue.py \
 --overwrite_output_dir
 ```
 
-Please see [`NLU/scripts`](NLU/script/s) for more examples of GLUE. 
+Please see [`NLU/scripts`](NLU/scripts/) for more examples of GLUE. 
 
 
 ## Summarization and Question Answering Task

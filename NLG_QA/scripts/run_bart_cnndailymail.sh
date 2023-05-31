@@ -3,7 +3,7 @@ examples/summarization/run_summarization_no_trainer.py \
 --model_name_or_path facebook/bart-large \
 --dataset_name cnn_dailymail --dataset_config "3.0.0" \
 --apply_lora --apply_rankselector \
---lora_type svd --target_rank 1   --lora_r 2   \
+--lora_type svd --target_rank 2 --lora_r 4 \
 --lora_alpha 32 \
 --reg_orth_coef 0.1 \
 --init_warmup 5000 --final_warmup 85000 --mask_interval 100 \

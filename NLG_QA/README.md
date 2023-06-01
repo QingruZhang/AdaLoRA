@@ -10,7 +10,7 @@ conda create -n NLG python=3.7
 conda activate NLG 
 ```
 
-### Install Pytorch 
+### Install Pytorch
 ```bash
 pip install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
 ```
@@ -21,7 +21,7 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-Install `transformers`: 
+Install `transformers`: (here we build our examples based on the latest `transformers` at the time we conduct experiments, which is `v4.21.0` and has better support for summarization tasks.)
 ```bash
 pip install -e . 
 ```
@@ -32,7 +32,7 @@ pip install -e ../loralib/
 ```
 
 
-## Adapt BART on summarization tasks 
+## Adapt BART on summarization tasks
 
 ### The example to reproduce the XSum results
 

@@ -14,7 +14,7 @@ There are several directories in this repo:
 * [NLG_QA/](NLG_QA) contains an example implementation of AdaLoRA in BART-large and DeBERTaV3-base, which can be used to reproduce the results of summarization and question-answering tasks. 
 
 
-## Quickstart of AdaLoRA 
+## Quickstart of AdaLoRA
 
 1. Install the updated `loralib`:
 
@@ -45,6 +45,7 @@ There are several directories in this repo:
 3. During the training loop, we apply RankAllocator of AdaLoRA to update importance scores of incremental matrices and allocate budget accordingly. 
   ```python
   from loralib import RankAllocator
+  from loralib import compute_orth_regu 
   # Initialize the RankAllocator 
   rankallocator = RankAllocator(
       model, lora_r=12, target_rank=8,
@@ -59,17 +60,19 @@ There are several directories in this repo:
 + `mask_interval`: The time internval between two budget allocations.
 + `beta1` and `beta2`: The coefficient of exponentional moving average when updating importance scores. 
 
-  After each step of `optimizer.step()`, we call `RankAllocator` to update importance estimation and allocate the budget accordingly: 
+  At each step of back-propagation, we apply an additional regularization to enforce the orthongonality of `SVDLinear` modules by `compute_orth_regu(model)`. After each step of `optimizer.step()`, we then call `RankAllocator` to update importance estimation and allocate the budget accordingly: 
   ```python
   # ===== Before =====
+  # loss.backward() 
   # optimizer.step() 
+  # global_step += 1 
   
   # ===== After ======
+  (loss+compute_orth_regu(model, regu_weight=0.1)).backward
   optimizer.step()
   rankallocator.update_and_mask(model, global_step)
+  global_step += 1
   ```
-
-  Additional comments: an additional orthongonal regulariztion should be applyed to training loss to enforce the orthongonality of incremental matrices. Please check our examples in [NLU/](NLU/) and [NLG_QA/](NLG_QA/) for more details. 
 
 
 ## GLUE benchmark

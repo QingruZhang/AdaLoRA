@@ -340,3 +340,16 @@ class RankAllocator(object):
                 self.tb_writter.add_scalar(
                     "train/orth_regu_loss", sum(regu_loss)/len(regu_loss), self.global_step
                 )
+
+
+def compute_orth_regu(model, regu_weight=0.1):
+    # The function to compute orthongonal regularization for SVDLinear in `model`. 
+    regu_loss, num_param = 0., 0
+    for n,p in model.named_parameters():
+        if "lora_A" in n or "lora_B" in n:
+            para_cov = p @ p.T if "lora_A" in n else p.T @ p 
+            I = torch.eye(*para_cov.size(), out=torch.empty_like(para_cov))
+            I.requires_grad = False
+            regu_loss += torch.norm(para_cov-I, p="fro")
+            num_param += 1
+    return regu_weight*regu_loss/num_param
